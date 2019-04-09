@@ -1,6 +1,4 @@
 require "bitter_domain/version"
-
+require "bitter_domain/bit_shifter"
 module BitterDomain
-  class Error < StandardError; end
-  # Your code goes here...
 end

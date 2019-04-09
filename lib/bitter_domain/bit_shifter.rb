@@ -39,12 +39,13 @@ module BitterDomain
           copied_bytes
             .map(&:chr)
             .join("")
+            .downcase
         end
         domains.concat(swapped_domains)
       end
 
       # kick out anything that doesn't match the pattern above
-      domains.keep_if { |domain| valid_domain?(domain) }
+      domains.keep_if { |domain| valid_domain?(domain) }.uniq
     end
   end
 end
