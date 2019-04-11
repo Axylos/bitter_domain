@@ -2,7 +2,7 @@ module BitterDomain
   class BitShifter
     # accept alphanumeric chars and hyphens
     # but no hyphens at the beginning or end of the domain
-    PATTERN = /^[A-Za-z0-9]-?[A-Za-z0-9-]+[A-Za-z0-9]$/
+    PATTERN = /^[A-Za-z0-9]-?[A-Za-z0-9]+$/
 
     def initialize(domain)
       @domain = domain
