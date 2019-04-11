@@ -36,6 +36,7 @@ Gem::Specification.new do |spec|
   spec.executables   = ['bitter_domain']
   spec.require_paths = ["lib"]
 
+  spec.add_dependency "colorize"
   spec.add_dependency "whois", "~> 4.0.8"
   spec.add_dependency "whois-parser", "~> 1.1.0"
 

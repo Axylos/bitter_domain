@@ -88,5 +88,9 @@ RSpec.describe BitterDomain::BitShifter do
     it 'rejects the original domain' do
       expect(subject.valid_domain?('tumblr')).to be false
     end
+
+    it 'accepts short urls' do
+      expect(subject.valid_domain?('fo')).to be true
+    end
   end
 end
