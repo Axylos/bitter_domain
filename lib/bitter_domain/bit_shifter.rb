@@ -9,7 +9,7 @@ module BitterDomain
     end
 
     def valid_domain?(domain)
-      domain.match? PATTERN
+      domain.match?(PATTERN) && domain != @domain
     end
 
     def gen_shifts(byte)

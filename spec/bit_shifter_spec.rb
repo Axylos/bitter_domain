@@ -70,7 +70,7 @@ RSpec.describe BitterDomain::BitShifter do
 
   describe '#valid_domain?' do
     it 'can validate a domain with only chars' do
-      expect(subject.valid_domain?('tumblr')).to be true
+      expect(subject.valid_domain?('tumbl2')).to be true
     end
 
     it 'rejects a domain that starts with a hyphen' do
@@ -83,6 +83,10 @@ RSpec.describe BitterDomain::BitShifter do
 
     it 'rejects a domain with an ampersand' do
       expect(subject.valid_domain?('tum&br')).to be false
+    end
+
+    it 'rejects the original domain' do
+      expect(subject.valid_domain?('tumblr')).to be false
     end
   end
 end
