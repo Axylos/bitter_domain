@@ -1,7 +1,7 @@
 # BitterDomain
 A Ruby gem for generating domains 1 bit away from a source domain and checking the availability of the generated domains.
 
-### DISCLAIMER###
+### DISCLAIMER
 This project is for *research purposes only*.  So don't use it for malicious nonsense or send nasty stuff in response to legitimate HTTP requests.  If you want to actually register one of these generated domains and set up a server to listen for requests, sending a `404` to all incoming requests if probably a good idea.
 
 ### Description
