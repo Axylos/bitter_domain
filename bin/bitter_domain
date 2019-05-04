@@ -15,15 +15,13 @@ class CLI < Thor
   def gen_shifts()
     puts "Generating shifted domains"
     mapper = BitterDomain::DomainMapper.new(options[:url])
-    shifted_domains = mapper.gen_shifts
+    mapper.gen_shifts
     puts "#{BitShifter.length} domains generated"
 
     if options["flips-only".to_sym]
       mapper.print_shifts
     else
       puts "Testing for available domains.  This may take a few minutes"
-      checker = BitterDomain::DomainChecker.new(shifted_domains)
-      checker.test_domains
       mapper.check_domains(options[:retry])
       options[:verbose] ? mapper.print_verbose : mapper.print_available
     end
