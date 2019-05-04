@@ -39,6 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "colorize"
   spec.add_dependency "whois", "~> 4.0.8"
   spec.add_dependency "whois-parser", "~> 1.1.0"
+  spec.add_dependency "public_suffix"
 
   spec.add_development_dependency "bundler", "~> 1.17"
   spec.add_development_dependency "rake", "~> 10.0"

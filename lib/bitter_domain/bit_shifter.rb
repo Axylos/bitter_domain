@@ -6,6 +6,7 @@ module BitterDomain
 
     def initialize(domain)
       @domain = domain
+      @shifts = []
     end
 
     def valid_domain?(domain)
@@ -15,13 +16,12 @@ module BitterDomain
     def gen_shifts(byte)
       # left-shift 1 through each bit of the byte
       # and XOR to flip a single one at each position
-      shifts = []
       8.times do |i|
         shifted = byte ^ (1 << i)
-        shifts.push(shifted)
+        @shifts.push(shifted)
       end
 
-      shifts
+      @shifts
     end
 
     def get_shifted_domains

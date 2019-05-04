@@ -13,18 +13,16 @@ class CLI < Thor
   method_option :url, aliases: ['-u'], desc: 'url to generate shifts for', required: true
   method_option :verbose, aliases: ['-v'], desc: 'print verbose output'
   def gen_shifts()
-    host, ext = options[:url].split(".")
-    shifter = BitterDomain::BitShifter.new(host)
-    shifted_domains = shifter.get_shifted_domains()
-      .map { |dom| "#{dom}.#{ext}" }
+    mapper = BitterDomain::DomainMapper.new(options[:url])
+    shifted_domains = mapper.gen_shifts
 
     if options["flips-only".to_sym]
-      shifted_domains.each { |shift| $stdout.puts "#{shift}" }
+      mapper.print_shifts
     else
       checker = BitterDomain::DomainChecker.new(shifted_domains)
       checker.test_domains
-      checker.retry if options[:retry]
-      options[:verbose] ? checker.print_verbose : checker.print_available
+      mapper.check_domains(options[:retry])
+      options[:verbose] ? mapper.print_verbose : mapper.print_available
     end
   end
 end
