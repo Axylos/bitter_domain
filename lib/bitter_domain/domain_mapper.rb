@@ -59,6 +59,7 @@ module BitterDomain
     end
 
     def print_available
+      puts "Here are the available shifted domains"
       self.checker.print_available
     end
 
