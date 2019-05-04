@@ -1,8 +1,23 @@
 # BitterDomain
+A Ruby gem for generating domains 1 bit away from a source domain and checking the availability of the generated domains.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/bitter_domain`. To experiment with that code, run `bin/console` for an interactive prompt.
+### DISCLAIMER###
+This project is for *research purposes only*.  So don't use it for malicious nonsense or send nasty stuff in response to legitimate HTTP requests.  If you want to actually register one of these generated domains and set up a server to listen for requests, sending a `404` to all incoming requests if probably a good idea.
 
-TODO: Delete this and the text above, and describe your gem
+### Description
+A Ruby gem for generating domains 1 bit away from a source domain and checking the availability of the generated domains.
+This project was inspired from a series of Defcon presentations on `bit squatting`.
+
+[The original video](https://www.youtube.com/watch?v=aT7mnSstKGs)
+[A second presentation further exploring the vulnerability](https://www.youtube.com/watch?v=IhwE1S4x36s)
+
+`Bit squatting` is a close cousin to `typo squatting`, viz., a user makes a typo when entering a common url in a browser address bar and unintentionally makes a request to a domain including the typo that a malicious user has registered.  Rather than typos, bit squatting leverages common hardware errors (bit errors) that yield domains that are _1 bit off from the source domain_, e.g., `instagram.com` -> `instagbam.com`.  According to the videos above, these errors generate a very high number of potential requests sent to domains with the aforementioned pathological structure.
+
+To exploit this vulnerability, an attacker may generate a list of domains 1 bit off from common domains, then register the "bit-flipped" domains, and finally spin up a web server to send responses to these requests from users who intended to make a request to the common source domain but have been routed to the "bit squatted" domain.
+
+`BitterDomain` is a gem for generating bit-flipped domains.  It does not include a server or other logging utilities.  I wrote a small go server for tracking incoming HTTP requests and headers.  After registering around 5 domains for flipped versions of facebook's cdn and instagram api domains, I received 3-4 _highly probable_ requests that were intended to be sent to facebook.  A high amount of garbage also came in, but that's sufficient evidence for me to conclude that the vulnerability is still exploitable, at least with a minimal amount of set up.
+
+`whois` and `whois-parser` are used for checking the DNS availability of the generated domains.
 
 ## Installation
 
@@ -22,17 +37,59 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+#### CLI
 
-## Development
+`BitterDomain` comes with an executable:
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```bash
+$ bitter_domain --url <source domain>
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+where `source domain` could be something like `google.com` or `apopulardomain.net`.  Notice that subdomains or protocols are unnecessary, since all that is required is the domain name and extension.
 
-## Contributing
+The default command prints out a list of available domains that are 1 bit removed from the source url. 
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/axylos/bitter_domain.
+*This may take a few minutes*.  All of the calls to `whois` servers can take some time.
+
+The CLI accepts flags for verbose output or the flips only without checking their availability.
+
+```
+Usage:
+  bitter_domain get a list of bit flipped domains -u, --url=URL
+
+Options:
+  -r, [--retry], [--no-retry]            # retry any domain that errored out; usually due to a connection reset
+  -s, [--flips-only], [--no-flips-only]  # limit output to just flips
+  -u, --url=URL                          # url to generate shifts for
+  -v, [--verbose=VERBOSE]                # print verbose output
+
+```
+
+#### Require
+
+Or require the gem with
+```ruby
+require "bitter_domain"
+```
+
+And instantiate a mapper like so:
+
+```ruby
+mapper = BitterDomain::DomainMapper.new("google.com")
+```
+
+`DomainMapper` includes a few instance methods for generating and testing domains
+- `#gen_shifts` will generate and return a list of shifted domains
+- `#print_shifts` will print out just the shifted domains
+- `#check_domains` will test the availability of the shifted domains using `whois`
+- `#print_verbose` and `#print_availabile` are two little output printers for the tested/available domains
+
+
+## PS
+
+#### HAVE FUN AND DON'T BE A JERK
+
+
 
 ## License
 
