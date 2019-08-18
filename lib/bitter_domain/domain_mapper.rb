@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'uri/http'
 require 'public_suffix'
 
@@ -17,11 +19,11 @@ module BitterDomain
       shifter = BitterDomain::BitShifter.new(host)
       self.checker = nil
       @shifted_domains = shifter.get_shifted_domains
-        .map { |dom| "#{dom}.#{@domain.tld}" }
+                                .map { |dom| "#{dom}.#{@domain.tld}" }
     end
 
     def print_shifts
-      self.shifted_domains.each { |shift| $stdout.puts "#{shift}" }
+      shifted_domains.each { |shift| $stdout.puts shift.to_s }
     end
 
     def domain=(domain)
@@ -29,38 +31,38 @@ module BitterDomain
       gen_shifts
     end
 
-    def check_domains(attempt_retry=false)
+    def check_domains(attempt_retry = false)
       self.checker = BitterDomain::DomainChecker.new(@shifted_domains)
-      self.checker.test_domains
-      
-      self.checker.retry if attempt_retry
+      checker.test_domains
 
-      self.checker.available
+      checker.retry if attempt_retry
+
+      checker.available
     end
 
     def get_available
-      self.checker.available
+      checker.available
     end
 
     def get_errors
-      self.checker.errors
+      checker.errors
     end
 
     def get_tested
-      self.checker.tested
+      checker.tested
     end
 
     def retry
-      self.checker.retry
+      checker.retry
     end
 
     def print_verbose
-      self.checker.print_verbose
+      checker.print_verbose
     end
 
     def print_available
-      puts "Here are the available shifted domains"
-      self.checker.print_available
+      puts 'Here are the available shifted domains'
+      checker.print_available
     end
 
     def query_shifts
@@ -70,9 +72,8 @@ module BitterDomain
       get_available
     end
 
-
     protected
-    
+
     attr_accessor :checker
     def parse_domain(url)
       uri = URI.parse(url)

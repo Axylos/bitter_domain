@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'whois'
 require 'whois-parser'
 require 'colorize'
 
 module BitterDomain
   class DomainChecker
-    attr_reader :available, :errors, :tested 
+    attr_reader :available, :errors, :tested
     def initialize(domains)
       @domains = domains
       @available = []
@@ -40,7 +42,7 @@ module BitterDomain
 
     def print_available
       @available.each { |domain| puts domain }
-      puts "No available domains" if @available.empty?
+      puts 'No available domains' if @available.empty?
     end
 
     def test_domains
@@ -53,7 +55,6 @@ module BitterDomain
       query_domains(copies)
     end
 
-
     private
 
     def query_domains(domains)
@@ -63,8 +64,8 @@ module BitterDomain
           @tested.push(url)
           is_available = record.parser.available?
           @available.push(url) if is_available
-        rescue Exception => boom
-          @error_msgs.push(boom)
+        rescue Exception => e
+          @error_msgs.push(e)
           @errors.push(url)
         end
       end

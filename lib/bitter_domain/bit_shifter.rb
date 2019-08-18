@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 module BitterDomain
   class BitShifter
     # accept alphanumeric chars and hyphens
     # but no hyphens at the beginning or end of the domain
-    PATTERN = /^[A-Za-z0-9]-?[A-Za-z0-9]+$/
+    PATTERN = /^[A-Za-z0-9]-?[A-Za-z0-9]+$/.freeze
 
     def initialize(domain)
       @domain = domain
@@ -33,12 +35,12 @@ module BitterDomain
       # and then stringify
       bytes.each.with_index do |byte, idx|
         shifts = gen_shifts(byte)
-        swapped_domains = shifts.map do |byte| 
+        swapped_domains = shifts.map do |byte|
           copied_bytes = bytes.dup
           copied_bytes[idx] = byte
           copied_bytes
             .map(&:chr)
-            .join("")
+            .join('')
             .downcase
         end
         domains.concat(swapped_domains)
