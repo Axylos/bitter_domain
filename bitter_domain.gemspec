@@ -43,7 +43,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whois', '~> 4.0.8'
   spec.add_dependency 'whois-parser', '~> 1.1.0'
 
-  spec.add_development_dependency 'bundler', '~> 1.17'
+  spec.add_development_dependency 'bundler', '~> 2.1.2'
   spec.add_development_dependency 'byebug', '~> 11.0.1'
   spec.add_development_dependency 'guard', '~> 2.15.0'
   spec.add_development_dependency 'guard-rspec', '~> 4.6.0'
