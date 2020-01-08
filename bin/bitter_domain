@@ -8,7 +8,8 @@ class CLI < Thor
   default_task :gen_shifts
   package_name 'Bitter Domain'
 
-  desc 'get a list of bit flipped domains', 'Generate a list of domains 1 bit away from a given domain and check availability with whois'
+  desc 'get a list of bit flipped domains',
+       'Generate a list of domains 1 bit away from a given domain and check availability with whois'
   method_option 'retry'.to_sym, aliases: ['-r'], desc: 'retry any domain that errored out; usually due to a connection reset', type: :boolean, default: false
   method_option 'flips-only'.to_sym, aliases: ['-s'], desc: 'limit output to just flips', type: :boolean, default: false
   method_option :url, aliases: ['-u'], desc: 'url to generate shifts for', required: true

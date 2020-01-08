@@ -5,7 +5,9 @@
 
 ## Uncomment and set this to only include directories you want to watch
 directories %w[app lib config test spec features] \
-  .select { |d| Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist") }
+  .select do |d|
+  Dir.exist?(d) ? d : UI.warning("Directory #{d} does not exist")
+end
 
 ## Note: if you are using the `directories` clause above and you are not
 ## watching the project directory ('.'), then you will want to move
